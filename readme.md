@@ -9,3 +9,5 @@ The primary function of this script is to achieve
         3.Ensure that the apache2 service is running. 
         4.Ensure that the apache2 service is enabled
         5.Create a tar archive of apache2 access logs and error logs that are present in the /var/log/apache2/ and upload the same to s3 bucket
+	6.Bookkeeping:  added code for creating /var/www/html/inventory.html
+	7.Cron Job: added code for creating cron which will run once in daily 00:00 hour
