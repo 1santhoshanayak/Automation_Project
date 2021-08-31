@@ -3,7 +3,7 @@ timestamp=$(date '+%d%m%Y-%H%M%S')
 s3_bucket=upgrad-santhosha
 myname=santhosha
 inventory_file=/var/www/html/inventory.html
-inventory_file=/var/www/html/inv.html
+inv_file=/var/www/html/inv.html
 project_name="Automation_Project"
 
 
@@ -73,5 +73,5 @@ fi
 
 #additional code for proper html format when url http://publicip/inv.html
 
-txt2html --ah /root/$project_name/header.html --outfile /var/www/html/inv.html  /root/$project_name/logs.txt
+txt2html --ah /root/$project_name/header.html --outfile $inv_file  /root/$project_name/logs.txt
 
