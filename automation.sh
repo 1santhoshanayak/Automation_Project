@@ -11,7 +11,7 @@ project_name="Automation_Project"
 apt-get update -qq > /dev/null
 
 declare -a pkgname
-pkgname=("apache2" "awscli" "txt2html")
+pkgname=("apache2" "awscli")
 
 #install required packages
 package_install_check(){
@@ -52,18 +52,16 @@ then
 fi
 
 #Task3
-#check for inventory file exist
-if [ ! -f $inventory_file ]
-then
-        echo -e '\033[1mLog Type\t Date Created\t\t Type\t Size\033[0m' >> $inventory_file
-fi
-
 
 #get file size and update inventory.html file
 fsize=`du -hs /tmp/$myname-httpd-logs-$timestamp.tar | awk '{ print $1 }'`
 
-echo -e "httpd-logs \t $timestamp \t tar \t $fsize" >> $inventory_file
-echo -e "httpd-logs \t $timestamp \t tar \t $fsize" >> /root/$project_name/logs.txt
+if [ ! -f "$inventory_file" ]
+then
+        echo "<p><strong>Log Type &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Time Created &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Type&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;Size</strong></p>" > $inventory_file
+fi
+
+echo "<p>httpd-logs&emsp;&emsp;$timestamp&emsp;&emsp;&emsp;tar&emsp;&emsp;&emsp;$fsize</p>" >> $inventory_file
 
 #update cron job
 if [ ! -f "/etc/cron.d/automation" ]
@@ -71,7 +69,13 @@ then
         echo -e "0 0 * * *\troot\t/root/$project_name/automation.sh" >> /etc/cron.d/automation
 fi
 
-#additional code for proper html format when url http://publicip/inv.html
+#additional code for cat /var/www/html/inv.html
 
-txt2html --ah /root/$project_name/header.html --outfile $inv_file  /root/$project_name/logs.txt
+#check for inv file exist
+if [ ! -f $inv_file ]
+then
+        echo -e '\033[1mLog Type\t Date Created\t\t Type\t Size\033[0m' >> $inv_file
+fi
 
+
+echo -e "httpd-logs \t $timestamp \t tar \t $fsize" >> $inv_file
